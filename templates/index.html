@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+    {%if res %}
+    <div class = "container">
+        <header>
+            <h3 style= "text-align: center">Short Links</h3>
+        </header>
+        <form>
+            {{form.hidden_tag()}}
+            <label for="exampleFormControlInput1" class="form-label">Original URL</label>
+            {{form.long_url(class="form-control" ,readonly=true, value = var)}} <br>
+            <label for="exampleFormControlInput1" class="form-label">Short Link</label>
+            {{form.alias(class="form-control",readonly=true, value=short_link)}}
+            <br>
+                <button class="btn btn-success">Copy Link</button>
+        </form>
+    </div>
+    {%else%}
+            <div class = "container">
+                    <header class = "header">
+                        <h3 style= "text-align: center">Short Links</h3>
+                    </header>
+                <form method = "post">
+                    {{form.hidden_tag()}}  
+                        {{form.long_url.label(class="form-label")}}
+                        {{form.long_url(class="form-control" )}}
+                        {% for error in form.long_url.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                        <br>
+                        <p>Add Custom Alias</p>
+                        <div class="input-group mb-3">
+                            <!-- {{form.domain(class="form-control", placeholder="shortlink.io", readonly=true)}} -->
+                            <span class="input-group-text" id="basic-addon3">shortlink.io/</span>
+                            {{form.alias(class="form-control", placeholder="preferred alias")}}
+                            {% for error in form.alias.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                            {% endfor %}
+                        </div>
+                      
+                        </br>   
+                        {{form.submit(class="btn btn-primary mb-3")}}
+                    
+                </form>
+            </div>
+        {%endif%}
+        
+    {% endblock %}
