@@ -38,7 +38,7 @@ def index():
         data = Links(user_link =form.long_url.data, alias = alias )
         db.session.add(data)
         db.session.commit()
-        short_link = "127.0.0.1:5000/"+alias
+        short_link = 'https://tinybits.herokuapp.com/'+alias 
         form.long_url.data = ''
         res = True
 
@@ -47,5 +47,5 @@ def index():
 def fetch_link(link_id):
     long_url = Links.query.filter_by(alias=link_id).first()
     if long_url:
-        return redirect("https://"+long_url.user_link) #maybe store it with https
+        return redirect("https://"+long_url.user_link) 
     
