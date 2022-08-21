@@ -10,9 +10,9 @@
             <label for="exampleFormControlInput1" class="form-label">Original URL</label>
             {{form.long_url(class="form-control" ,readonly=true, value = var)}} <br>
             <label for="exampleFormControlInput1" class="form-label">Short Link</label>
-            {{form.alias(class="form-control",readonly=true, value=short_link)}}
+            {{form.alias(class="form-control",readonly=true, value=short_link, id="input")}}
             <br>
-                <button class="btn btn-success">Copy Link</button>
+            <button class="btn btn-secondary" id="btn" onclick= "copyAction()">Copy Link</button>
         </form>
     </div>
     {%else%}
@@ -20,21 +20,24 @@
                     <header class = "header">
                         <h3 style= "text-align: center">Tiny Bits</h3>
                     </header>
-                <form method = "post">
-                    {{form.hidden_tag()}}  
-                        {{form.long_url.label(class="form-label")}}
-                        {{form.long_url(class="form-control" )}}
-                        {% for error in form.long_url.errors %}
-                        <span style="color: red;">[{{ error }}]</span>
-                        {% endfor %}
+                <form method = "post" novalidate>
+                        {{form.hidden_tag()}}  
+                            {{form.long_url.label(class="form-label")}}
+                            {{form.long_url(class="form-control", placeholder = "https://..." )}}
+                            {% for error in form.long_url.errors %}
+                                <span style= "color: red; text-align: center" > {{error }}</span>
+                               
+                            {% endfor %}
                         <br>
                         <p>Add Custom Alias</p>
-                        <div class="input-group mb-3">
-                            <!-- {{form.domain(class="form-control", placeholder="shortlink.io", readonly=true)}} -->
+                        <div class="input-group mb-3"> 
                             <span class="input-group-text" id="basic-addon3">tinybits.herokuapp.com/</span>
                             {{form.alias(class="form-control", placeholder="preferred alias")}}
                             {% for error in form.alias.errors %}
-                            <span style="color: red;">[{{ error }}]</span>
+                                <!-- <div class="invalid-feedback">
+                                    {{error}}
+                                </div> -->
+                                <span style="color: red; text-align: center" > {{error }}</span>
                             {% endfor %}
                         </div>
                       
@@ -44,5 +47,19 @@
                 </form>
             </div>
         {%endif%}
-        
+        <script>
+            function copyAction() {
+            /* Get the text field */
+                var copyText = document.getElementById("input");
+
+            /* Select the text field */
+                copyText.select();
+                copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+                /* Copy the text inside the text field */
+                navigator.clipboard.writeText(copyText.value);
+                document.getElementById("btn").textContent = "Copied"
+                document.getElementById("btn").className = "btn btn-success";
+            }
+    </script>
     {% endblock %}

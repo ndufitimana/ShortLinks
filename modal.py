@@ -1,3 +1,4 @@
+
 from app import db
 
 class Links(db.Model):
