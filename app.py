@@ -39,7 +39,7 @@ def index():
 def fetch_link(link_id):
     long_url = Links.query.filter_by(alias=link_id).first()
     if long_url:
-        return redirect("https://"+long_url.user_link) 
+        return redirect(long_url.user_link) 
 from inputForms import InputForm
 from modal import Links
 
